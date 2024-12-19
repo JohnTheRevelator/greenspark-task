@@ -1,0 +1,16 @@
+:root {
+  /* Semantic colors */
+  --color-primary: #f9f9f9;
+  --color-beige: #f2ebdb;
+  --color-blue: #2e3a8c;
+  --color-green: #3b755f;
+  --color-green-light: #afc6bd;
+  --color-grey: #b0b0b0;
+  --color-grey-dark: #212121;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-text: var(--color-green);
+  --color-text-dark: var(--color-grey-dark);
+  --color-text-light: var(--color-primary);
+  --color-background: var(--color-white);
+}
