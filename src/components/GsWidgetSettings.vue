@@ -33,7 +33,7 @@
       @update:modelValue="mainStore.setWidgetProperty(widget.id, 'selectedColor', $event)"
     />
     <GsCheckbox
-      v-model="widget.active"
+      v-model="widgetActiveState"
       type="switch"
       name="activateBadge"
       label="Activate badge"
@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
   import { useMainStore } from '@/stores'
-
+  import { computed } from 'vue'
   import type { ProductWidgetSchema } from '@/components/types'
   import GsCheckbox from '@/components/inputs/GsCheckbox.vue'
   import GsTooltip from '@/components/GsTooltip.vue'
@@ -67,7 +67,18 @@
     widget: ProductWidgetSchema
   }
 
-  defineProps<GsProductWidgetSettingsProps>()
+  const props = defineProps<GsProductWidgetSettingsProps>()
+
+  /**
+   * Making this specific widget property computed to avoid
+   * `modelValue` update and `mainStore.setActiveWidget` race condition.
+   * Without this, the `modelValue` update would trigger the `mainStore.setActiveWidget`
+   * after the `modelValue` update, which would cause the widget to be activated
+   * again after it was deactivated in a certain case.
+   * Since it's a readonly getter, `modelValue` update throws a console warning,
+   * but it's safe to ignore.
+   */
+  const widgetActiveState = computed(() => props.widget.active)
 </script>
 
 <style scoped>

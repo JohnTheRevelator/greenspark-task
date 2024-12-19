@@ -12,6 +12,9 @@ export const useMainStore = defineStore('main', {
     widgetActivities: ['collects', 'plants', 'offsets'],
   }),
   getters: {
+    getWidgetById(state) {
+      return (id: number) => state.widgets.get(id)
+    },
     getWidgetsMap(state) {
       return state.widgets
     },
@@ -30,9 +33,14 @@ export const useMainStore = defineStore('main', {
   },
   actions: {
     setActiveWidget(id: number) {
-      this.getWidgetsArray.forEach((widget) => {
-        widget.active = widget.id === id
-      })
+      const widget = this.getWidgetById(id)
+      if (widget?.active) {
+        widget.active = false
+      } else {
+        this.getWidgetsArray.forEach((widget) => {
+          widget.active = widget.id === id
+        })
+      }
     },
     setWidgetProperty(
       id: number,
